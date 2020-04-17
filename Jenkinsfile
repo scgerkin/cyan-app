@@ -57,6 +57,8 @@ pipeline {
     }
   }
   post {
-    sh 'mvn clean'
+    always {
+      sh 'mvn clean'
+    }
   }
 }
