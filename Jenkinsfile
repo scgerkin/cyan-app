@@ -1,4 +1,10 @@
 pipeline {
+  environment {
+    appName = ""
+    version = ""
+    registry = ""
+    registryCreds = 'docker'
+  }
   agent any
   stages {
     stage ('Initialize with clean target dir') {
@@ -41,17 +47,16 @@ pipeline {
         sh 'mvn pmd:check'
       }
     }
-    stage ('Deploy to AWS') {
+    stage ('Build Docker image') {
       steps {
-        withAWS(region:'us-east-1',credentials:'aws-static') {
-          s3Upload(
-            pathStyleAccessEnabled: true,
-            payloadSigningEnabled: true,
-            workingDir:"target",
-            includePathPattern:"*.jar",
-            path:"chat-app/branch/",
-            bucket:"scgrk.jenkins.pipeline"
-          )
+        script {
+          appName = sh(returnStdout: true, script: "mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout")
+          version = sh(returnStdout: true, script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout")
+          registry = "scgerkin/" + appName
+          image = docker.build(registry + ":" + version, "--build-arg jarName=" + appName + "-" + version + ".jar .")
+          docker.withRegistry('', registryCreds) {
+            image.push()
+          }
         }
       }
     }
@@ -59,6 +64,7 @@ pipeline {
   post {
     always {
       sh 'mvn clean'
+      sh "docker rmi $registry:$version"
     }
   }
 }
