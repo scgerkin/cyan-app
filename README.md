@@ -1,7 +1,7 @@
 # Cyan App
 A simple Java Spring Boot application that works as a Hello World for the Udacity Cloud DevOps
 Engineer Nanodegree capstone project. It runs on the default Spring port of `8080` and serves up a static
-`index.html` on the default endpoint `/`. 
+`index.html` on the default endpoint `/`.
 
 The project uses Maven as a  base build tool. Maven already possesses a rather robust lifecycle for
 automated testing, building, and deploying. However, for the purposes of this project, each necessary
