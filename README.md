@@ -29,3 +29,4 @@ The process includes:
     - [PMD Source Code Analyzer](https://pmd.github.io/) for automatic detection of 'code smells'.
 - Deploying the compiled `.jar` file(s) to an AWS S3 bucket.
 - A post-build process to clean the `target` directory and free resources (regardless of build result).
+
