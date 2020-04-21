@@ -14,39 +14,9 @@ pipeline {
         sh 'mvn clean'
       }
     }
-    stage ('Lint') {
-      steps {
-        sh 'mvn checkstyle:check'
-      }
-    }
-    stage ('Compile Sources') {
-      steps {
-        sh 'mvn compile'
-      }
-    }
-    stage ('Compile Test Sources') {
-      steps {
-        sh 'mvn test-compile'
-      }
-    }
-    stage ('Run unit tests') {
-      steps {
-        sh 'mvn test'
-      }
-    }
     stage ('Package') {
       steps {
         sh 'mvn package -DskipTests'
-      }
-    }
-    stage ('SpotBugs') {
-      steps {
-        sh 'mvn spotbugs:check'
-      }
-    }
-    stage ('PMD Source Code Analyzer') {
-      steps {
-        sh 'mvn pmd:check'
       }
     }
     stage ('Build Docker image') {
@@ -62,22 +32,27 @@ pipeline {
         }
       }
     }
+    stage ('Eksctl') {
+      steps {
+        sh 'echo here would be eks'
+      }
+    }
   }
   post {
     always {
       sh 'mvn clean'
       sh "docker rmi $registry:$version"
     }
-    success {
-      script {
-        successMsg = "Successful Build.\n" + "BuildId: " + buildId + "\n" + "ArtifactId: " + appName + "\n" + "Version: " + version + "\n"
-      }
-      withAWS(region:'us-east-1',credentials:'aws-static') {
-        snsPublish(
-          topicArn: "arn:aws:sns:us-east-1:854235326474:GithubRepoPushActions",
-          subject: "Successful Pipeline Build",
-          message: successMsg)
-      }
-    }
+    // success {
+    //   script {
+    //     successMsg = "Successful Build.\n" + "BuildId: " + buildId + "\n" + "ArtifactId: " + appName + "\n" + "Version: " + version + "\n"
+    //   }
+    //   withAWS(region:'us-east-1',credentials:'aws-static') {
+    //     snsPublish(
+    //       topicArn: "arn:aws:sns:us-east-1:854235326474:GithubRepoPushActions",
+    //       subject: "Successful Pipeline Build",
+    //       message: successMsg)
+    //   }
+    // }
   }
 }
