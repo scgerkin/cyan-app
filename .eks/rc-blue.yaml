@@ -5,7 +5,7 @@ metadata:
   labels:
     app: blue-app
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     app: blue-app
   template:
