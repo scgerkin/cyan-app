@@ -44,7 +44,7 @@ pipeline {
     stage ('script testing') {
       steps {
         echo 'Before script'
-        def someVar = 0
+        someVar = 0
         script {
           for (int i = 0; i < 10; i++) {
             someVar += i
