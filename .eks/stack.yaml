@@ -1,0 +1,23 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: test
+  region: us-east-2
+
+vpc:
+  id: vpc-0270280d654047f87
+  cidr: "10.0.0.0/16"
+  subnets:
+    public:
+      us-east-2a:
+        id: subnet-061c806e79c6427e7
+      us-east-2b:
+        id: subnet-08b53fa47860e877c
+
+nodeGroups:
+  - name: ng-1-workers
+    instanceType: t2.micro
+    desiredCapacity: 4
+    ssh:
+      publicKeyName: east2
