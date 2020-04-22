@@ -42,6 +42,9 @@ pipeline {
       }
     }
     stage ('await') {
+      steps {
+        echo 'Start waiting'
+      }
       input {
         message "Move forward?"
         ok "Yes"
