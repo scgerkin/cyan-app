@@ -42,9 +42,11 @@ pipeline {
       }
     }
     stage ('script testing') {
+      environment {
+        someVar = 0
+      }
       steps {
         echo 'Before script'
-        someVar = 0
         script {
           for (int i = 0; i < 10; i++) {
             someVar += i
