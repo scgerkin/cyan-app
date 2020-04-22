@@ -61,9 +61,6 @@ pipeline {
         message "Move forward?"
         ok "Yes"
       }
-      steps {
-        echo 'Done waiting'
-      }
     }
     stage ('after await') {
       steps {
