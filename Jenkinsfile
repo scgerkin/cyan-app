@@ -42,12 +42,9 @@ pipeline {
       }
     }
     stage ('await') {
-      moveForward = input(message: 'Move forward?')
-      if (moveForward) {
-        echo 'Moving forward'
-      }
-      else {
-        echo 'Not moving forward'
+      input {
+        message "Move forward?"
+        ok "Yes"
       }
     }
     stage ('after await') {
