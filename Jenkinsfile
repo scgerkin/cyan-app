@@ -52,7 +52,7 @@ pipeline {
             someVar += i
           }
         }
-        echo 'After script ${someVar}'
+        echo "After script ${someVar}"
       }
     }
     stage ('await') {
