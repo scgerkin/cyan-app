@@ -42,14 +42,12 @@ pipeline {
       }
     }
     stage ('await') {
-      steps {
-        moveForward = input(message: 'Move forward?')
-        if (moveForward) {
-          echo 'Moving forward'
-        }
-        else {
-          echo 'Not moving forward'
-        }
+      moveForward = input(message: 'Move forward?')
+      if (moveForward) {
+        echo 'Moving forward'
+      }
+      else {
+        echo 'Not moving forward'
       }
     }
     stage ('after await') {
@@ -62,9 +60,9 @@ pipeline {
     always {
       sh 'mvn clean'
       sh "docker rmi $registry:$version"
-      //sh 'kubectl delete -f .eks/svc-lb.yaml'
-      //sh 'kubectl delete -f .eks/rc-blue.yaml'
-      //sh 'kubectl delete -f .eks/rc-green.yaml'
+      sh 'kubectl delete -f .eks/svc-lb.yaml'
+      sh 'kubectl delete -f .eks/rc-blue.yaml'
+      sh 'kubectl delete -f .eks/rc-green.yaml'
     }
     // success {
     //   script {
