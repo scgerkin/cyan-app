@@ -32,10 +32,13 @@ pipeline {
         }
       }
     }
-    stage ('Eksctl') {
+    stage ('kubectl') {
       steps {
-        sh 'chmod +x .eks/create.sh'
-        sh '.eks/create.sh'
+        sh 'aws eks --region us-east-2 update-kubeconfig --name test'
+        sh 'kubectl apply -f .eks/rc-blue.yaml'
+        sh 'kubectl apply -f .eks/rc-green.yaml'
+        sh 'kubectl apply -f .eks/svc-lb.yaml'
+        sh 'kubectl get all'
       }
     }
   }
@@ -43,6 +46,9 @@ pipeline {
     always {
       sh 'mvn clean'
       sh "docker rmi $registry:$version"
+      //sh 'kubectl delete -f templates/svc-lb.yaml'
+      //sh 'kubectl delete -f templates/rc-blue.yaml'
+      //sh 'kubectl delete -f templates/rc-green.yaml'
     }
     // success {
     //   script {
