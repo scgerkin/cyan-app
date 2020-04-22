@@ -34,7 +34,8 @@ pipeline {
     }
     stage ('Eksctl') {
       steps {
-        sh 'chmod +x .eks/create.sh && source .eks/create.sh'
+        sh 'chmod +x .eks/create.sh'
+        sh '.eks/create.sh'
       }
     }
   }
