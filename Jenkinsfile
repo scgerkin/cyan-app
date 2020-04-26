@@ -18,7 +18,6 @@ pipeline {
   post {
     always {
       sh 'mvn clean'
-      sh "docker rmi $registry:$version"
     }
     success {
       script {
